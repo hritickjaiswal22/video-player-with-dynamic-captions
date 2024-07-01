@@ -71,8 +71,80 @@ function VideoPlayerWithCaptions({ inputs, url }: Props) {
 //   );
 // }
 
+interface TimeInputProps {
+  inputChangeHandler: (val: number) => void;
+}
+
+function TimeInput({ inputChangeHandler }: TimeInputProps) {
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+
+  function minuteChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = Number(e.target.value);
+
+    if (val >= 0) {
+      setMinutes(val);
+      inputChangeHandler(val * 60 + seconds);
+    }
+  }
+
+  function secondChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = Number(e.target.value);
+
+    if (val >= 0 && val <= 59) {
+      setSeconds(val);
+      inputChangeHandler(minutes * 60 + val);
+    }
+  }
+
+  return (
+    <div className="flex-row gap-4">
+      <input
+        type="number"
+        value={minutes}
+        onChange={minuteChangeHandler}
+        min={0}
+        className="p-1 border border-gray-400 rounded w-[200px]"
+      />
+      <input
+        type="number"
+        value={seconds}
+        onChange={secondChangeHandler}
+        min={0}
+        max={59}
+        className="p-1 border border-gray-400 rounded w-[200px]"
+      />
+    </div>
+  );
+}
+
 function App() {
-  return <h1>Hello World</h1>;
+  const [input, setInput] = useState({
+    url: "",
+    timestamps: [5],
+  });
+  const [value, onChange] = useState("10:20");
+
+  return (
+    <article className="h-dvh flex justify-center items-center flex-col gap-8">
+      <input
+        className="p-4 border border-gray-400 rounded-2xl w-[70%]"
+        onChange={(e) => {
+          setInput((temp) => {
+            return {
+              ...temp,
+              url: e.target.value,
+            };
+          });
+        }}
+        placeholder="Enter url"
+      />
+
+      <div className="p-4 border border-gray-400 rounded-2xl w-[70%]">
+        <TimeInput inputChangeHandler={(val) => console.log(val)} />
+      </div>
+    </article>
+  );
 }
 
 export default App;
