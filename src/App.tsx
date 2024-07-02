@@ -4,6 +4,7 @@ import { useState } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
 import Draggable from "react-draggable";
+import ColorPicker from "react-pick-color";
 
 interface InputType {
   startSecond: number;
@@ -30,7 +31,8 @@ function VideoPlayerWithCaptions({ inputs, url }: Props) {
 
   const [captions, setCaptions] = useState("");
   const [captionOptions, setCaptionOptions] = useState({
-    textSize: "2xl",
+    textSize: "3rem",
+    captionColor: "#fff",
   });
 
   return (
@@ -47,7 +49,11 @@ function VideoPlayerWithCaptions({ inputs, url }: Props) {
         />
         <Draggable bounds="body">
           <h1
-            className={`box cursor-grab absolute top-[90%] left-1/2 font-bold text-white -translate-x-1/2 text-${captionOptions.textSize}`}
+            className={`box cursor-grab absolute top-[90%] left-1/2 font-bold -translate-x-1/2`}
+            style={{
+              fontSize: captionOptions.textSize,
+              color: captionOptions.captionColor,
+            }}
           >
             {captions}
           </h1>
@@ -76,15 +82,25 @@ function VideoPlayerWithCaptions({ inputs, url }: Props) {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option selected>Choose a caption size</option>
-            <option value="xs">xs</option>
-            <option value="sm">sm</option>
-            <option value="lg">lg</option>
-            <option value="base">base</option>
-            <option value="xl">xl</option>
-            <option value="2xl">2xl</option>
-            <option value="3xl">3xl</option>
+            <option value="1rem">Super small</option>
+            <option value="2rem">Small</option>
+            <option value="3rem">Medium</option>
+            <option value="4rem">Large</option>
+            <option value="5rem">Super large</option>
           </select>
         </div>
+
+        <ColorPicker
+          color={captionOptions.captionColor}
+          onChange={(color) =>
+            setCaptionOptions((temp) => {
+              return {
+                ...temp,
+                captionColor: color.hex,
+              };
+            })
+          }
+        />
       </div>
     </article>
   );
