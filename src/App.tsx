@@ -29,6 +29,9 @@ function VideoPlayerWithCaptions({ inputs, url }: Props) {
   }
 
   const [captions, setCaptions] = useState("");
+  const [captionOptions, setCaptionOptions] = useState({
+    textSize: "2xl",
+  });
 
   return (
     <article className="max-w-[90%] mx-auto my-8">
@@ -43,11 +46,46 @@ function VideoPlayerWithCaptions({ inputs, url }: Props) {
           controls={true}
         />
         <Draggable bounds="body">
-          <h1 className="box cursor-grab absolute top-[90%] left-1/2 font-bold text-3xl text-white -translate-x-1/2">
+          <h1
+            className={`box cursor-grab absolute top-[90%] left-1/2 font-bold text-white -translate-x-1/2 text-${captionOptions.textSize}`}
+          >
             {captions}
           </h1>
         </Draggable>
       </main>
+
+      <div className="my-8 flex flex-row justify-between items-center">
+        <div>
+          <label
+            htmlFor="fontSize"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Select caption font size
+          </label>
+          <select
+            id="fontSize"
+            defaultValue={"2xl"}
+            onChange={(e) => {
+              setCaptionOptions((temp) => {
+                return {
+                  ...temp,
+                  textSize: e.target.value,
+                };
+              });
+            }}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option selected>Choose a caption size</option>
+            <option value="xs">xs</option>
+            <option value="sm">sm</option>
+            <option value="lg">lg</option>
+            <option value="base">base</option>
+            <option value="xl">xl</option>
+            <option value="2xl">2xl</option>
+            <option value="3xl">3xl</option>
+          </select>
+        </div>
+      </div>
     </article>
   );
 }
