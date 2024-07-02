@@ -3,6 +3,7 @@ import "./App.css";
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
+import Draggable from "react-draggable";
 
 interface InputType {
   startSecond: number;
@@ -41,9 +42,11 @@ function VideoPlayerWithCaptions({ inputs, url }: Props) {
           onProgress={progressHandler}
           controls={true}
         />
-        <h1 className="absolute top-[90%] left-1/2 font-bold text-3xl text-white -translate-x-1/2">
-          {captions}
-        </h1>
+        <Draggable bounds="body">
+          <h1 className="box cursor-grab absolute top-[90%] left-1/2 font-bold text-3xl text-white -translate-x-1/2">
+            {captions}
+          </h1>
+        </Draggable>
       </main>
     </article>
   );
