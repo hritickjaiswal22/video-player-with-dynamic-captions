@@ -49,28 +49,6 @@ function VideoPlayerWithCaptions({ inputs, url }: Props) {
   );
 }
 
-// function App() {
-//   return (
-//     <VideoPlayerWithCaptions
-//       inputs={[
-//         {
-//           startSecond: 5,
-//           captionToDisplay: "Hello World",
-//         },
-//         {
-//           startSecond: 10,
-//           captionToDisplay: "Hello Hritick",
-//         },
-//         {
-//           startSecond: 15,
-//           captionToDisplay: "Bye World",
-//         },
-//       ]}
-//       url="https://www.youtube.com/watch?v=N34dx3umMAs"
-//     />
-//   );
-// }
-
 interface TimeInputProps {
   id: number;
   inputChangeHandler: (val: number, valS: string) => void;
@@ -177,11 +155,23 @@ function App() {
     setCaptions(temp);
   }
 
+  function reset() {
+    setShowVideoSection(false);
+    setCaptions([
+      {
+        id: 32434,
+        timestamp: 0,
+        caption: "",
+      },
+    ]);
+    setUrl("");
+  }
+
   if (showVideoSection)
     return (
       <main>
         <button
-          onClick={() => setShowVideoSection(false)}
+          onClick={reset}
           className="bg-green-500 m-4 mb-0 text-white font-bold py-2 px-4 flex justify-center items-center rounded-xl"
         >
           Go Back
@@ -238,8 +228,11 @@ function App() {
         </button>
 
         <button
+          disabled={!url || captions.length < 0}
           onClick={() => setShowVideoSection(true)}
-          className="bg-green-500 text-white font-bold py-2 px-4 flex justify-center items-center rounded-xl"
+          className={`${
+            !url || captions.length < 0 ? "bg-gray-500" : "bg-green-500"
+          } text-white font-bold py-2 px-4 flex justify-center items-center rounded-xl`}
         >
           Watch Video
         </button>
