@@ -54,12 +54,14 @@ function App() {
           Go Back
         </button>
         <VideoPlayerWithCaptions
-          inputs={captions.map((caption) => {
-            return {
-              captionToDisplay: caption.caption,
-              startSecond: caption.timestamp,
-            };
-          })}
+          inputs={captions
+            .map((caption) => {
+              return {
+                captionToDisplay: caption.caption,
+                startSecond: caption.timestamp,
+              };
+            })
+            .sort((a, b) => a.startSecond - b.startSecond)}
           url={url}
         />
       </main>
